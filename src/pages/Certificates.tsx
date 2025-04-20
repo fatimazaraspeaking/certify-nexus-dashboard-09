@@ -24,7 +24,9 @@ const Certificates = () => {
       
       try {
         setIsLoading(true);
+        console.log("Loading certificates for user ID:", user.id);
         const certs = await fetchCertificates(user.id);
+        console.log("Certificates loaded:", certs);
         setCertificates(certs);
       } catch (error) {
         console.error('Failed to load certificates:', error);

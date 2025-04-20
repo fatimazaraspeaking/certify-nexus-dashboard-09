@@ -14,6 +14,7 @@ import Certificates from "./pages/Certificates";
 import CertificateDetail from "./pages/CertificateDetail";
 import CertificateCreate from "./pages/CertificateCreate";
 import CertificateView from "./pages/CertificateView";
+import Verification from "./pages/Verification";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
@@ -75,6 +76,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <CertificateCreate />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/verification" 
+          element={
+            <ProtectedRoute>
+              <Verification />
             </ProtectedRoute>
           } 
         />

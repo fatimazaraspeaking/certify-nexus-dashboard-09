@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       const mockUser: User = {
-        id: `user-${Date.now()}`,
+        id: "user-1", // Fixed ID to match mock certificates data
         full_name: "Solana User",
         wallet_address: address,
         created_at: new Date().toISOString(),

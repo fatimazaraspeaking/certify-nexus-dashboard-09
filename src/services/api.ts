@@ -3,6 +3,58 @@ import { Certificate, User, VerificationLog } from '@/types';
 
 // In a real application, these would be actual API calls to your Cloudflare Workers
 
+// Mock verification logs for testing
+const MOCK_VERIFICATION_LOGS: VerificationLog[] = [
+  {
+    id: 'log-1',
+    certificate_id: 'cert-1',
+    verification_step: 'hash_verification',
+    status: 'success',
+    details: JSON.stringify({ message: 'Certificate hash verified' }),
+    created_at: '2024-03-16T11:30:00Z',
+  },
+  {
+    id: 'log-2',
+    certificate_id: 'cert-1',
+    verification_step: 'issuer_verification',
+    status: 'success',
+    details: JSON.stringify({ message: 'Issuer signature verified' }),
+    created_at: '2024-03-16T11:31:00Z',
+  },
+  {
+    id: 'log-3',
+    certificate_id: 'cert-2',
+    verification_step: 'hash_verification',
+    status: 'success',
+    details: JSON.stringify({ message: 'Certificate hash verified' }),
+    created_at: '2024-02-20T14:25:00Z',
+  },
+  {
+    id: 'log-4',
+    certificate_id: 'cert-2',
+    verification_step: 'issuer_verification',
+    status: 'pending',
+    details: JSON.stringify({ message: 'Waiting for issuer confirmation' }),
+    created_at: '2024-02-20T14:26:00Z',
+  },
+  {
+    id: 'log-5',
+    certificate_id: 'cert-3',
+    verification_step: 'hash_verification',
+    status: 'success',
+    details: JSON.stringify({ message: 'Certificate hash verified' }),
+    created_at: '2024-01-11T10:15:00Z',
+  },
+  {
+    id: 'log-6',
+    certificate_id: 'cert-3',
+    verification_step: 'issuer_verification',
+    status: 'failed',
+    details: JSON.stringify({ message: 'Invalid institution signature' }),
+    created_at: '2024-01-11T10:16:00Z',
+  },
+];
+
 // Mock data for testing
 const MOCK_CERTIFICATES: Certificate[] = [
   {
@@ -179,4 +231,13 @@ export const convertImageToPdf = async (imageFile: File): Promise<File> => {
   // This is just a mock that renames the file to .pdf
   const fileName = imageFile.name.split('.')[0] + '.pdf';
   return new File([imageFile], fileName, { type: 'application/pdf' });
+};
+
+// Verification log API calls
+export const fetchVerificationLogs = async (certificateId: string): Promise<VerificationLog[]> => {
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 300));
+  
+  // Filter logs by certificate ID
+  return MOCK_VERIFICATION_LOGS.filter(log => log.certificate_id === certificateId);
 };
