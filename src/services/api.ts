@@ -65,7 +65,7 @@ const MOCK_CERTIFICATES: Certificate[] = [
     program_name: 'Web3 Development',
     issue_date: '2025-03-15',
     verification_url: 'https://demo.com/verify/cert-1',
-    certificate_url: 'https://images.bannerbear.com/direct/4mGpW3zwrxA1K0AxQw/requests/000/088/230/913/0Mn5r3E1XY0vv13q6WPoD9kg7/3de43e0caec6a82997c3ee94df6245b960232c42.pdf',
+    certificate_url: 'https://charming-beetle.static.domains/a2ec72869534f0fee4154556ea3686f2.pdf',
     verification_status: 'verified',
     created_at: '2025-03-15T10:00:00Z',
     updated_at: '2025-03-16T15:30:00Z',
