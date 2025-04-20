@@ -63,12 +63,12 @@ const MOCK_CERTIFICATES: Certificate[] = [
     title: 'Blockchain Developer',
     institution_name: 'Solana Academy',
     program_name: 'Web3 Development',
-    issue_date: '2024-03-15',
-    verification_url: 'https://example.com/verify/cert-1',
-    certificate_url: 'https://example.com/certificates/cert-1.pdf',
+    issue_date: '2025-03-15',
+    verification_url: 'https://demo.com/verify/cert-1',
+    certificate_url: 'https://images.bannerbear.com/direct/4mGpW3zwrxA1K0AxQw/requests/000/088/230/913/0Mn5r3E1XY0vv13q6WPoD9kg7/3de43e0caec6a82997c3ee94df6245b960232c42.pdf',
     verification_status: 'verified',
-    created_at: '2024-03-15T10:00:00Z',
-    updated_at: '2024-03-16T15:30:00Z',
+    created_at: '2025-03-15T10:00:00Z',
+    updated_at: '2025-03-16T15:30:00Z',
     arweave_url: 'https://arweave.net/abc123cert1',
     nft_mint_address: 'SNftxKdf8xY6vKn5DS3qBM5bpvEwQNwD5a5PJj5nAVd',
   },
@@ -186,10 +186,10 @@ export const fetchUserProfile = async (walletAddress: string): Promise<User> => 
     id: 'user-1',
     full_name: 'Alex Johnson',
     wallet_address: walletAddress,
-    email: 'alex@example.com',
-    created_at: '2024-01-01T00:00:00Z',
-    updated_at: '2024-04-01T00:00:00Z',
-    profile_image_url: 'https://example.com/profile/alex.jpg',
+    email: 'alex@demo.com',
+    created_at: '2025-01-01T00:00:00Z',
+    updated_at: '2025-04-01T00:00:00Z',
+    profile_image_url: 'https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg',
   };
 };
 
@@ -202,10 +202,10 @@ export const updateUserProfile = async (userData: Partial<User>): Promise<User> 
     id: 'user-1',
     full_name: userData.full_name || 'Alex Johnson',
     wallet_address: userData.wallet_address || '5wLhAsYwvKcDviAFHyWZB7UZLWGqABXSSqQjJXqM5eu2',
-    email: userData.email || 'alex@example.com',
-    created_at: '2024-01-01T00:00:00Z',
+    email: userData.email || 'alex@demo.com',
+    created_at: '2025-01-01T00:00:00Z',
     updated_at: new Date().toISOString(),
-    profile_image_url: userData.profile_image_url || 'https://example.com/profile/alex.jpg',
+    profile_image_url: userData.profile_image_url || 'https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg',
   };
 };
 
