@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useWallet } from '@/contexts/WalletContext';
 import { fetchUserProfile, updateUserProfile, uploadFile } from '@/services/api';
 import { ProfileFormData } from '@/types';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Profile = () => {
   const { user, updateUserProfile: updateAuthUser } = useAuth();
@@ -25,25 +25,44 @@ const Profile = () => {
   });
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [loadAttempted, setLoadAttempted] = useState(false);
 
   useEffect(() => {
+    if (user && !loadAttempted) {
+      setFormData({
+        full_name: user.full_name || '',
+        email: user.email || '',
+        profile_image: null,
+      });
+      
+      if (user.profile_image_url) {
+        setProfileImagePreview(user.profile_image_url);
+      }
+      
+      setIsLoading(false);
+      return;
+    }
+
     const loadUserProfile = async () => {
-      if (!wallet) return;
+      if (!wallet) {
+        if (loadAttempted) {
+          setIsLoading(false);
+        }
+        return;
+      }
       
       try {
         setIsLoading(true);
+        setLoadAttempted(true);
         
-        // Fetch user profile from API
         const userProfile = await fetchUserProfile(wallet);
         
-        // Update form data
         setFormData({
-          full_name: userProfile.full_name,
+          full_name: userProfile.full_name || '',
           email: userProfile.email || '',
           profile_image: null,
         });
         
-        // Set profile image preview if available
         if (userProfile.profile_image_url) {
           setProfileImagePreview(userProfile.profile_image_url);
         }
@@ -61,13 +80,12 @@ const Profile = () => {
     };
     
     loadUserProfile();
-  }, [wallet]);
+  }, [wallet, user, loadAttempted]);
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     
-    // Clear error for this field if it exists
     if (errors[name]) {
       setErrors(prev => {
         const newErrors = { ...prev };
@@ -81,10 +99,8 @@ const Profile = () => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       
-      // Set the file to form data
       setFormData(prev => ({ ...prev, profile_image: file }));
       
-      // Create a preview URL
       const imageUrl = URL.createObjectURL(file);
       setProfileImagePreview(imageUrl);
     }
@@ -108,31 +124,28 @@ const Profile = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateForm() || !user) {
+    if (!validateForm()) {
       return;
     }
     
     try {
       setIsSubmitting(true);
       
-      // Upload profile image if a new one was selected
-      let profileImageUrl = user.profile_image_url;
+      let profileImageUrl = user?.profile_image_url;
       if (formData.profile_image) {
         profileImageUrl = await uploadFile(formData.profile_image, 'profile');
       }
       
-      // Update user profile
       const updatedUser = await updateUserProfile({
-        id: user.id,
+        id: user?.id || '',
         full_name: formData.full_name,
         email: formData.email,
         profile_image_url: profileImageUrl,
-        wallet_address: user.wallet_address,
-        created_at: user.created_at,
+        wallet_address: wallet || '',
+        created_at: user?.created_at || new Date().toISOString(),
         updated_at: new Date().toISOString(),
       });
       
-      // Update the user in the auth context
       updateAuthUser(updatedUser);
       
       toast({
@@ -168,7 +181,6 @@ const Profile = () => {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Profile Information */}
         <Card className="lg:col-span-2">
           <form onSubmit={handleSubmit}>
             <CardHeader>
@@ -179,8 +191,28 @@ const Profile = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               {isLoading ? (
-                <div className="flex justify-center p-12">
-                  <Loader2 className="h-8 w-8 animate-spin" />
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <Label className="flex items-center gap-2">
+                      <User className="h-4 w-4" />
+                      Full Name
+                    </Label>
+                    <Skeleton className="h-10 w-full" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="flex items-center gap-2">
+                      <Mail className="h-4 w-4" />
+                      Email Address
+                    </Label>
+                    <Skeleton className="h-10 w-full" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="flex items-center gap-2">
+                      <Wallet className="h-4 w-4" />
+                      Wallet Address
+                    </Label>
+                    <Skeleton className="h-10 w-full" />
+                  </div>
                 </div>
               ) : (
                 <>
@@ -262,7 +294,6 @@ const Profile = () => {
           </form>
         </Card>
         
-        {/* Profile Photo */}
         <Card>
           <CardHeader>
             <CardTitle>Profile Photo</CardTitle>
@@ -271,38 +302,47 @@ const Profile = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-center justify-center">
-            <div className="mb-6">
-              <Avatar className="w-32 h-32">
-                <AvatarImage src={profileImagePreview || ''} alt={user?.full_name || 'User'} />
-                <AvatarFallback className="text-2xl bg-certify-purple text-white">
-                  {user ? getInitials(user.full_name) : 'U'}
-                </AvatarFallback>
-              </Avatar>
-            </div>
-            
-            <div 
-              className="border-2 border-dashed border-border hover:border-primary rounded-lg w-full p-8 flex flex-col items-center justify-center transition-all cursor-pointer"
-              onClick={() => document.getElementById('profile_image')?.click()}
-            >
-              <div className="w-12 h-12 rounded-full bg-certify-purple/10 flex items-center justify-center mb-4">
-                <Upload className="h-6 w-6 text-certify-purple" />
+            {isLoading ? (
+              <div className="flex flex-col items-center space-y-6 w-full">
+                <Skeleton className="w-32 h-32 rounded-full" />
+                <Skeleton className="w-full h-32" />
               </div>
-              <p className="text-sm text-muted-foreground mb-1">
-                Click to upload a new photo
-              </p>
-              <p className="text-xs text-muted-foreground">
-                JPG, PNG, or GIF. Max size 2MB.
-              </p>
-              
-              <input
-                id="profile_image"
-                name="profile_image"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageChange}
-              />
-            </div>
+            ) : (
+              <>
+                <div className="mb-6">
+                  <Avatar className="w-32 h-32">
+                    <AvatarImage src={profileImagePreview || ''} alt={formData.full_name || 'User'} />
+                    <AvatarFallback className="text-2xl bg-certify-purple text-white">
+                      {formData.full_name ? getInitials(formData.full_name) : 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+                
+                <div 
+                  className="border-2 border-dashed border-border hover:border-primary rounded-lg w-full p-8 flex flex-col items-center justify-center transition-all cursor-pointer"
+                  onClick={() => document.getElementById('profile_image')?.click()}
+                >
+                  <div className="w-12 h-12 rounded-full bg-certify-purple/10 flex items-center justify-center mb-4">
+                    <Upload className="h-6 w-6 text-certify-purple" />
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    Click to upload a new photo
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    JPG, PNG, or GIF. Max size 2MB.
+                  </p>
+                  
+                  <input
+                    id="profile_image"
+                    name="profile_image"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageChange}
+                  />
+                </div>
+              </>
+            )}
           </CardContent>
           <CardFooter className="border-t pt-6">
             <div className="text-sm text-muted-foreground">

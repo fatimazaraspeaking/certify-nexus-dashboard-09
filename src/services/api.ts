@@ -1,4 +1,3 @@
-
 import { Certificate, User, VerificationLog } from '@/types';
 
 // In a real application, these would be actual API calls to your Cloudflare Workers
@@ -182,8 +181,9 @@ export const fetchUserProfile = async (walletAddress: string): Promise<User> => 
   await new Promise(resolve => setTimeout(resolve, 800));
   
   // In a real app, you would fetch user data from your database
-  return {
-    id: 'user-1',
+  // For now, return the mock user that matches our mock certificates
+  const mockUser = {
+    id: 'user-1', // This ID matches the user_id in MOCK_CERTIFICATES
     full_name: 'Alex Johnson',
     wallet_address: walletAddress,
     email: 'alex@demo.com',
@@ -191,6 +191,8 @@ export const fetchUserProfile = async (walletAddress: string): Promise<User> => 
     updated_at: '2025-04-01T00:00:00Z',
     profile_image_url: 'https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg',
   };
+
+  return mockUser;
 };
 
 export const updateUserProfile = async (userData: Partial<User>): Promise<User> => {
