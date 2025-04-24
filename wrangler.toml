@@ -1,0 +1,21 @@
+
+name = "certificate-verification-app"
+
+# Configure build settings
+[build]
+command = "npm run build"
+upload.dir = "dist"
+upload.format = "service-worker"
+
+[build.environment]
+NODE_VERSION = "18"
+
+# Configure deployment settings
+[env.production]
+route = "*/*"
+zone_id = ""  # Your Cloudflare Zone ID will be automatically set by Cloudflare Pages
+
+# Configure previews for PRs and branches
+[env.preview]
+route = "*/*"
+

@@ -20,8 +20,8 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    sourcemap: false, // Disable source maps in production for better performance
-    minify: 'terser', // Use terser for better minification
+    sourcemap: false,
+    minify: 'terser',
     rollupOptions: {
       output: {
         manualChunks: {
@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => ({
         },
       },
     },
+    target: 'esnext', // Optimize for modern browsers
+    assetsInlineLimit: 4096, // Inline small assets
   },
 }));
-

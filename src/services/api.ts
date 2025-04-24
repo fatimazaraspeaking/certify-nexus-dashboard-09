@@ -1,6 +1,9 @@
 import { Certificate, User, VerificationLog } from '@/types';
 
-// In a real application, these would be actual API calls to your Cloudflare Workers
+// Define API base URL based on environment
+const API_BASE_URL = import.meta.env.PROD 
+  ? 'https://api.your-domain.com' // Replace with your actual API domain in production
+  : 'http://localhost:8080';
 
 // Mock verification logs for testing
 const MOCK_VERIFICATION_LOGS: VerificationLog[] = [
