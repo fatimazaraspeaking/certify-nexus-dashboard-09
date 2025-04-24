@@ -78,12 +78,12 @@ const MOCK_CERTIFICATES: Certificate[] = [
     title: 'NFT Artist Certificate',
     institution_name: 'Digital Art School',
     program_name: 'NFT Creation',
-    issue_date: '2024-02-20',
+    issue_date: '2025-02-20',
     verification_url: 'https://example.com/verify/cert-2',
-    certificate_url: 'https://example.com/certificates/cert-2.pdf',
+    certificate_url: 'https://charming-beetle.static.domains/98620b2d99fdc3de625809b5da5a051aed538989.pdf',
     verification_status: 'pending',
-    created_at: '2024-02-20T14:20:00Z',
-    updated_at: '2024-02-20T14:20:00Z',
+    created_at: '2025-02-20T14:20:00Z',
+    updated_at: '2025-02-20T14:20:00Z',
   },
   {
     id: 'cert-3',
@@ -93,7 +93,7 @@ const MOCK_CERTIFICATES: Certificate[] = [
     program_name: 'Smart Contract Development',
     issue_date: '2024-01-10',
     verification_url: 'https://example.com/verify/cert-3',
-    certificate_url: 'https://example.com/certificates/cert-3.pdf',
+    certificate_url: 'https://charming-beetle.static.domains/92f43d1a0aab747287512ba171da55587f5ff05f.pdf',
     verification_status: 'rejected',
     verification_details: JSON.stringify({ reason: 'Invalid institution signature' }),
     created_at: '2024-01-10T09:15:00Z',
@@ -104,7 +104,7 @@ const MOCK_CERTIFICATES: Certificate[] = [
 // Certificate API calls
 export const fetchCertificates = async (userId: string): Promise<Certificate[]> => {
   // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 800));
+  await new Promise(resolve => setTimeout(resolve, 400));
   
   // Filter certificates by user_id
   return MOCK_CERTIFICATES.filter(cert => cert.user_id === userId);
@@ -112,7 +112,7 @@ export const fetchCertificates = async (userId: string): Promise<Certificate[]> 
 
 export const fetchCertificate = async (id: string): Promise<Certificate | null> => {
   // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 250));
   
   const certificate = MOCK_CERTIFICATES.find(cert => cert.id === id);
   return certificate || null;
@@ -144,7 +144,7 @@ export const verifyCertificate = async (userId: string, certificateId: string): 
   console.log(`Making verification request for User ${userId}, Certificate ${certificateId}`);
   
   // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise(resolve => setTimeout(resolve, 500));
   
   // In a real app, this would be a fetch to your worker endpoint:
   // fetch(`https://certificate-verification-worker-v3.spacewear-work.workers.dev/verify/${userId}/${certificateId}`, {
@@ -156,7 +156,7 @@ export const verifyCertificate = async (userId: string, certificateId: string): 
 
 export const checkVerificationStatus = async (certificateId: string): Promise<string> => {
   // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 250));
   
   // Find certificate
   const certificate = MOCK_CERTIFICATES.find(cert => cert.id === certificateId);
@@ -166,7 +166,7 @@ export const checkVerificationStatus = async (certificateId: string): Promise<st
 
 export const mintCertificateNFT = async (certificateId: string): Promise<string> => {
   // Simulate API delay for minting
-  await new Promise(resolve => setTimeout(resolve, 3000));
+  await new Promise(resolve => setTimeout(resolve, 1500));
   
   // Generate a fake Solana NFT address
   const mintAddress = `${Math.random().toString(36).substring(2, 10)}NFT${Math.random().toString(36).substring(2, 6)}`;
@@ -179,7 +179,7 @@ export const mintCertificateNFT = async (certificateId: string): Promise<string>
 // User API calls
 export const fetchUserProfile = async (walletAddress: string): Promise<User> => {
   // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 800));
+  await new Promise(resolve => setTimeout(resolve, 200));
   
   // In a real app, you would fetch user data from your database
   return {
@@ -195,7 +195,7 @@ export const fetchUserProfile = async (walletAddress: string): Promise<User> => 
 
 export const updateUserProfile = async (userData: Partial<User>): Promise<User> => {
   // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1200));
+  await new Promise(resolve => setTimeout(resolve, 500));
   
   // In a real app, this would update the user in your database
   return {
@@ -225,7 +225,7 @@ export const uploadFile = async (
 // Simulated PDF conversion (in real app would use a library)
 export const convertImageToPdf = async (imageFile: File): Promise<File> => {
   // Simulate conversion delay
-  await new Promise(resolve => setTimeout(resolve, 1500));
+  await new Promise(resolve => setTimeout(resolve, 600));
   
   // In a real app, you would use a PDF generation library
   // This is just a mock that renames the file to .pdf
@@ -236,7 +236,7 @@ export const convertImageToPdf = async (imageFile: File): Promise<File> => {
 // Verification log API calls
 export const fetchVerificationLogs = async (certificateId: string): Promise<VerificationLog[]> => {
   // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 300));
+  await new Promise(resolve => setTimeout(resolve, 100));
   
   // Filter logs by certificate ID
   return MOCK_VERIFICATION_LOGS.filter(log => log.certificate_id === certificateId);

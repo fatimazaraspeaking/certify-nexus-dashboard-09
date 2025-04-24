@@ -308,7 +308,7 @@ const Verification = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-muted-foreground">
-            CertifyNexus verifies certificates through a combination of blockchain technology and digital signatures.
+            ChainProof verifies certificates through a combination of blockchain technology and digital signatures.
             When a certificate is verified, it means:
           </p>
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">

@@ -9,8 +9,8 @@ const Logo = () => {
         <BadgeCheck className="text-white" size={20} />
       </div>
       <div className="font-bold text-xl">
-        <span className="text-gradient">Certify</span>
-        <span>Nexus</span>
+        <span className="text-gradient">Chain</span>
+        <span>Proof</span>
       </div>
     </div>
   );

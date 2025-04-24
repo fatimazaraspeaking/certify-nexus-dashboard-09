@@ -38,7 +38,7 @@ const Login = () => {
           <div className="flex justify-center mb-6">
             <Logo />
           </div>
-          <h1 className="text-2xl font-bold mb-2">Sign in to CertifyNexus</h1>
+          <h1 className="text-2xl font-bold mb-2">Sign in to ChainProof</h1>
           <p className="text-muted-foreground">Connect your Solana wallet to continue</p>
         </div>
         
