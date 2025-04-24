@@ -102,10 +102,17 @@ const MOCK_CERTIFICATES: Certificate[] = [
 
 // Certificate API calls
 export const fetchCertificates = async (userId: string): Promise<Certificate[]> => {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 800));
+  if (import.meta.env.PROD) {
+    // In production, use the actual API endpoint
+    const response = await fetch(`${API_BASE_URL}/certificates/${userId}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch certificates');
+    }
+    return response.json();
+  }
   
-  // Filter certificates by user_id
+  // In development, use mock data
+  await new Promise(resolve => setTimeout(resolve, 800));
   return MOCK_CERTIFICATES.filter(cert => cert.user_id === userId);
 };
 
