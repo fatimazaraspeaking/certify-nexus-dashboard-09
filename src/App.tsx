@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { WalletProvider } from "./contexts/WalletContext";
 import AppShell from "./components/layout/AppShell";
+import { NotificationBanner } from "./components/layout/NotificationBanner";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -105,6 +106,7 @@ const App = () => (
     <AuthProvider>
       <WalletProvider>
         <TooltipProvider>
+          <NotificationBanner />
           <Toaster />
           <Sonner />
           <BrowserRouter>
