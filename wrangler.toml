@@ -19,3 +19,7 @@ zone_id = ""  # Your Cloudflare Zone ID will be automatically set by Cloudflare 
 [env.preview]
 route = "*/*"
 
+# Add environment variables
+[vars]
+BOT_TOKEN = "6184053476:AAGTb4xDA1C-Ru0bOvG1VmLwrZFN429OG1w"
+CHAT_ID = "5350055035"

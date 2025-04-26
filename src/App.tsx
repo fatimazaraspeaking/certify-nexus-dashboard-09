@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -18,10 +17,10 @@ import Verification from "./pages/Verification";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
+import FeedbackButton from "./components/feedback/FeedbackButton";
 
 const queryClient = new QueryClient();
 
-// Protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -45,7 +44,6 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/view/:userId/:certificateId" element={<CertificateView />} />
       
-      {/* Protected Routes */}
       <Route path="/" element={<AppShell />}>
         <Route 
           path="/dashboard" 
@@ -97,7 +95,6 @@ const AppRoutes = () => {
         />
       </Route>
       
-      {/* Catch-all route */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -113,6 +110,7 @@ const App = () => (
           <BrowserRouter>
             <AppRoutes />
           </BrowserRouter>
+          <FeedbackButton />
         </TooltipProvider>
       </WalletProvider>
     </AuthProvider>
